@@ -1,11 +1,18 @@
+"use client";
+
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 // import styles from "../styles/Home.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
+  const [location, setLocation] = useState("");
   return (
     <>
       <Head>
@@ -19,10 +26,9 @@ export default function Home() {
           {/* NAVBAR */}
 
           <nav className="flex justify-between p-2 bg-white">
-            <a href="" className="text-2xl font-bold text-gray-700">
-              {" "}
-              OpenTable{" "}
-            </a>
+            <Link href="/" className="text-2xl font-bold text-gray-700">
+              OpenTable
+            </Link>
             <div>
               <div className="flex gap-3">
                 <button className="p-1 px-4 text-white bg-blue-400 border rounded">
@@ -47,8 +53,16 @@ export default function Home() {
                     type="text"
                     className="rounded  mr-3 w-74 p-2 w-[450px]"
                     placeholder="State, city or town"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
                   />
-                  <button className="py-2 text-white bg-red-600 rounded px-9">
+                  <button
+                    className="py-2 text-white bg-red-600 rounded px-9"
+                    onClick={() => {
+                      if (location === "banana") return;
+                      router.push("/search");
+                    }}
+                  >
                     Let's go
                   </button>
                 </div>
@@ -59,22 +73,24 @@ export default function Home() {
             <div className="flex flex-wrap py-3 mt-10 px-36">{/* CARD */}</div>
             {/* CARD */}
             <div className="w-64 m-3 overflow-hidden border rounded cursor-pointer h-72">
-              <img src="" alt="" className="w-full h-36" />
-              <div className="p-1">
-                <h3 className="font-bold text-zxl">Lorem ipsum dolor</h3>
-                <div className="flex items-start">
-                  <div className="flex mb-2">***</div>
-                  <p className="ml-2">77 reviews</p>
+              <Link href="/restaurant/milestones-grill">
+                <img src="" alt="" className="w-full h-36" />
+                <div className="p-1">
+                  <h3 className="font-bold text-zxl">Lorem ipsum dolor</h3>
+                  <div className="flex items-start">
+                    <div className="flex mb-2">***</div>
+                    <p className="ml-2">77 reviews</p>
+                  </div>
+                  <div className="flex gap-3 font-light capitalize text-reg">
+                    <p className="">Mexican</p>
+                    <p className="">$$$$</p>
+                    <p className="">Lagos</p>
+                  </div>
+                  <p className="mt-1 text-sm font-bold text-reg">
+                    Booked 3 times today
+                  </p>
                 </div>
-                <div className="flex gap-3 font-light capitalize text-reg">
-                  <p className="">Mexican</p>
-                  <p className="">$$$$</p>
-                  <p className="">Lagos</p>
-                </div>
-                <p className="mt-1 text-sm font-bold text-reg">
-                  Booked 3 times today
-                </p>
-              </div>
+              </Link>
             </div>
             {/* CARD */}
           </main>

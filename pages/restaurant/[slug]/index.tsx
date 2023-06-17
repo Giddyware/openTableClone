@@ -1,13 +1,14 @@
+import Link from "next/link";
+
 const RestaurantDetails = () => {
   return (
     <main className="w-screen min-h-screen bg-gray-100">
       <main className="m-auto bg-white max-w-screen-2xl">
         {/* NAVBAR */}
         <nav className="flex justify-between p-2 bg-white">
-          <a href="" className="text-2xl font-bold text-gray-700">
-            {" "}
-            OpenTable{" "}
-          </a>
+          <Link href="/" className="text-2xl font-bold text-gray-700">
+            OpenTable
+          </Link>
           <div>
             <div className="flex">
               <button className="p-1 px-4 mr-3 text-white bg-blue-400 border rounded">
@@ -20,7 +21,7 @@ const RestaurantDetails = () => {
         {/* NAVBAR */} {/* HEADER */}
         <div className="overflow-hidden h-96">
           <div className="bg-center bg-gradient-to-r from-[#0f1f47] to-[#5f6984] h-full flex justify-center items-center">
-            <h1 className="text-center text-white text-7xl captitalize text-shadow">
+            <h1 className="text-center text-white text-7xl capitalize text-shadow">
               Milestones Grill (Toronto)
             </h1>
           </div>
@@ -30,14 +31,12 @@ const RestaurantDetails = () => {
           <div className="bg-white w-[70%] rounded p-3 shadow">
             {/* RESAURANT NAVBAR */}
             <nav className="flex pb-2 border-b text-reg">
-              <a href="" className="mr-7">
-                {" "}
-                Overview{" "}
-              </a>
-              <a href="" className="mr-7">
-                {" "}
-                Menu{" "}
-              </a>
+              <Link href="/restaurant/milestone-grill" className="mr-7">
+                Overview
+              </Link>
+              <Link href="/restaurant/milestone-grill/menu" className="mr-7">
+                Menu
+              </Link>
             </nav>
             {/* RESAURANT NAVBAR */} {/* TITLE */}
             <div className="pb-6 mt-4 border-b">
@@ -99,7 +98,7 @@ const RestaurantDetails = () => {
             </div>
             {/* IMAGES */} {/* REVIEWS */}
             <div>
-              <h1 className="pb-5 mt-10 text-3xl font-bold mb-7 borber-b">
+              <h1 className="pb-5 mt-10 text-3xl font-bold mb-7 border-b">
                 What 100 people are saying
               </h1>
               <div>
@@ -168,7 +167,7 @@ const RestaurantDetails = () => {
             </div>
           </div>
         </div>
-        {/* DESCRIPTION PORTION */} {/* RESERVATION CARD PORTION */}{" "}
+        {/* DESCRIPTION PORTION */} {/* RESERVATION CARD PORTION */}
         {/* RESERVATION
       CARD PORTION */}
       </main>
