@@ -6,15 +6,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <main className="w-screen min-h-screen bg-gray-100">
-          <main className="m-auto bg-white max-w-screen-2xl">
-            <NavBar />
-            {children}
-          </main>
+    <body>
+      <main className="w-screen min-h-screen bg-gray-100">
+        <main className="m-auto bg-white max-w-screen-2xl">
+          <NavBar />
+          {children}
         </main>
-      </body>
-    </html>
+      </main>
+    </body>
   );
 }
