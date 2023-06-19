@@ -1,45 +1,16 @@
+import type { InferGetStaticPropsType, GetStaticProps } from "next";
 import Head from "next/head";
 import { PRICE } from "@prisma/client";
 import Header from "./components/Header";
 import RestaurantCard from "./components/RestaurantCard";
 import RootLayout from "./layout";
 import { useEffect, useState } from "react";
-import { prisma } from "../lib/prismadb";
+import db from "@/app/lib/prismadb";
+import { produce } from "immer";
 
-interface Restaurant {
-  id: number;
-  name: string;
-  main_image: string;
-  images: string[];
-  description: string;
-  open_time: string;
-  close_time: string;
-  slug: string;
-  price: PRICE;
-  location_id: number;
-  cuisine_id: number;
-  created_at: Date;
-  updated_at: Date;
-  // items: [];
-}
-
-export default function Home() {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const restaurantsData = await prisma.restaurant.findMany();
-        setRestaurants(restaurantsData);
-        console.log({ restaurants }, "ehekj");
-      } catch (error) {
-        console.error("Error fetching restaurants:", error);
-      }
-    };
-
-    fetchRestaurants();
-  }, []);
-
+export default function Home({
+  restaurants,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <RootLayout>
       <Head>
@@ -53,10 +24,42 @@ export default function Home() {
         <Header />
         <div className="flex flex-wrap py-3 mt-10 px-36">
           {restaurants?.map((restaurant) => (
-            <RestaurantCard key={restaurant.id} />
+            <RestaurantCard key={restaurant.id} restaurant={restaurant} />
           ))}
         </div>
       </main>
     </RootLayout>
   );
 }
+
+export const getStaticProps: GetStaticProps<{
+  restaurants: IRestaurant[];
+}> = async () => {
+  const data = await db.restaurant.findMany({
+    select: {
+      id: true,
+      name: true,
+      main_image: true,
+      cuisine: true,
+      location: true,
+      slug: true,
+      price: true,
+    },
+  });
+
+  const restaurants = data.map((restaurant) => {
+    const draftRestaurant = produce(restaurant, (draft) => {
+      // @ts-expect-error
+      draft.cuisine.created_at = draft.cuisine.created_at.toISOString();
+      // @ts-expect-error
+      draft.cuisine.updated_at = draft.cuisine.updated_at.toISOString();
+      // @ts-expect-error
+      draft.location.created_at = draft.location.created_at.toISOString();
+      // @ts-expect-error
+      draft.location.updated_at = draft.location.updated_at.toISOString();
+    });
+    return draftRestaurant;
+  });
+
+  return { props: { restaurants } };
+};
