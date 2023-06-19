@@ -1,9 +1,45 @@
 import Head from "next/head";
+import { PRICE } from "@prisma/client";
 import Header from "./components/Header";
 import RestaurantCard from "./components/RestaurantCard";
 import RootLayout from "./layout";
+import { useEffect, useState } from "react";
+import { prisma } from "../lib/prismadb";
+
+interface Restaurant {
+  id: number;
+  name: string;
+  main_image: string;
+  images: string[];
+  description: string;
+  open_time: string;
+  close_time: string;
+  slug: string;
+  price: PRICE;
+  location_id: number;
+  cuisine_id: number;
+  created_at: Date;
+  updated_at: Date;
+  // items: [];
+}
 
 export default function Home() {
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const restaurantsData = await prisma.restaurant.findMany();
+        setRestaurants(restaurantsData);
+        console.log({ restaurants }, "ehekj");
+      } catch (error) {
+        console.error("Error fetching restaurants:", error);
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
+
   return (
     <RootLayout>
       <Head>
@@ -12,11 +48,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/*  */}
+
       <main>
         <Header />
         <div className="flex flex-wrap py-3 mt-10 px-36">
-          <RestaurantCard />
+          {restaurants?.map((restaurant) => (
+            <RestaurantCard key={restaurant.id} />
+          ))}
         </div>
       </main>
     </RootLayout>
