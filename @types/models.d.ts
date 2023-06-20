@@ -1,21 +1,26 @@
-import { Cuisine, Location } from "@prisma/client";
+// import { Cuisine, Location, Restaurant } from "@prisma/client";
 
 interface IRestaurant {
   id: number;
   name: string;
   main_image: string;
-  cuisine: Cuisine;
-  location: Location;
-  price: PRICE;
+  images: string[];
+  description: string;
+  open_time: string;
+  close_time: string;
   slug: string;
-  // images: string[];
-  // description: string;
-  // open_time: string;
-  // close_time: string;
-  // slug: string;
-  // location_id: number;
-  // cuisine_id: number;
-  // created_at: Date | string;
-  // updated_at: Date | string;
-  // items: [];
+  price: PRICE;
+  location_id: number;
+  cuisine_id: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface IRestaurantSafe extends IRestaurant {
+  created_at: string;
+  updated_at: string;
+}
+
+interface IParams {
+  [key: string]: string | undefined;
 }
