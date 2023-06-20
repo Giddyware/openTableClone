@@ -33,7 +33,7 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps<{
-  restaurants: IRestaurant[];
+  restaurants: IRestaurantSafe[];
 }> = async () => {
   const data = await db.restaurant.findMany({
     select: {
